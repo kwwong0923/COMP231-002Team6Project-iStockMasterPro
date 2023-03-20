@@ -2,7 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -21,9 +22,6 @@
          </BorderPane.margin>
       </Text>
    </top>
-   <center>
-      <ListView fx:id="announcementListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
    <bottom>
       <GridPane prefHeight="244.0" prefWidth="1014.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -108,4 +106,16 @@
          </children>
       </GridPane>
    </bottom>
+   <center>
+      <TableView fx:id="announcementTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="idTableColumn" editable="false" prefWidth="147.0" sortable="false" text="ID" />
+          <TableColumn fx:id="contentTableColumn" prefWidth="741.0" text="Content" />
+            <TableColumn fx:id="dateTableColumn" prefWidth="95.0" text="Date" />
+        </columns>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin>
+      </TableView>
+   </center>
 </BorderPane>

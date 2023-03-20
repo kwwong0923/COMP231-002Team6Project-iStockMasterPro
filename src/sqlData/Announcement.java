@@ -52,5 +52,4 @@ public class Announcement
 		return this.announcementId + "-" + this.content + "-" + this.publishDate;
 	}
 	
-	
 }

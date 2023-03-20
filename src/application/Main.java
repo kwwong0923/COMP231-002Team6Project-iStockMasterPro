@@ -15,17 +15,10 @@ public class Main extends Application
 	{
 		try 
 		{
-			// Datebase
-			// connect to Database
-			DBConnection.connectToDB();
-			
 			Parent root = FXMLLoader.load(getClass().getResource("Homepage.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.show();
-			
-			DBConnection.disconnectToDB();
-
+			primaryStage.show();			
 			
 		} 
 		catch(Exception e) 
