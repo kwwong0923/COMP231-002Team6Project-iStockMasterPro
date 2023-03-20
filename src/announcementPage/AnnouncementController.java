@@ -1,4 +1,4 @@
-package application;
+package announcementPage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-
+import application.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,7 +25,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sqlData.Announcement;
 
-public class HomepageController implements Initializable
+public class AnnouncementController implements Initializable
 {
 	private Stage stage;
 	private Scene scene;
@@ -43,55 +43,16 @@ public class HomepageController implements Initializable
 	@FXML
 	private TableColumn<Announcement, Date> dateTableColumn;
 	@FXML
-	private Button checkinoutButton;
+	private Button newAnnouncementButton;
 	@FXML
-	private Button inventoryButton;
-	@FXML
-	private Button orderButton;
-	@FXML
-	private Button marketingManagerButton;
-	@FXML
-	private Button techSupportButton;
-	@FXML
-	private Button accountantButton;
-	@FXML
-	private Button publishAnnouncementButton;
+	private Button homepageButton;
 	
-	// Query a list of announcements data
-	public void getAnnouncementData() throws SQLException
-	{	
-		DBConnection.connectToDB();
-		// instantiate list
-		announcementList = FXCollections.observableArrayList();
-		// query statement and execution
-		String query = "SELECT * FROM announcement";		
-		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
-		ResultSet resultSet = pps.executeQuery();
-		
-		// set column properties
-		idTableColumn.setCellValueFactory(new PropertyValueFactory<Announcement, String>("announcementId"));
-	    contentTableColumn.setCellValueFactory(new PropertyValueFactory<Announcement, String>("content"));
-	    dateTableColumn.setCellValueFactory(new PropertyValueFactory<Announcement, Date>("publishDate"));
-
-		while(resultSet.next())
-		{
-			Announcement newAnnouncement = new Announcement(
-					resultSet.getString(1), 
-					resultSet.getString(2), 
-					resultSet.getDate(3)
-					);
-			System.out.println(newAnnouncement);
-			announcementList.add(newAnnouncement);
-		}
-		
-		announcementTableView.setItems(announcementList);
-		DBConnection.disconnectToDB();
-	}
-
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
-	{		
-		try
+	{
+		System.out.println("HEY");
+		try 
 		{
 			getAnnouncementData();
 		} 
@@ -101,14 +62,54 @@ public class HomepageController implements Initializable
 		}
 	}
 	
-	public void navToAnnouncement(ActionEvent event) throws IOException
+	public void getAnnouncementData() throws SQLException
 	{
-		root = FXMLLoader.load(getClass().getResource("/announcementPage/AnnouncementPage.fxml"));
+		DBConnection.connectToDB();
+		// instantiate list
+		announcementList = FXCollections.observableArrayList();
+		// query statement and execution
+		String query = "SELECT * FROM announcement";
+		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
+		ResultSet resultSet = pps.executeQuery();
+		
+		// set column properties
+		idTableColumn.setCellValueFactory(new PropertyValueFactory<Announcement, String>("announcementId"));
+	    contentTableColumn.setCellValueFactory(new PropertyValueFactory<Announcement, String>("content"));
+	    dateTableColumn.setCellValueFactory(new PropertyValueFactory<Announcement, Date>("publishDate"));
+	    
+	    while(resultSet.next())
+	    {
+	    	Announcement newAnnouncement = new Announcement(
+	    			resultSet.getString(1),
+	    			resultSet.getString(2),
+	    			resultSet.getDate(3)
+	    			);
+			System.out.println(newAnnouncement);
+			announcementList.add(newAnnouncement);	    			
+	    }
+	    announcementTableView.setItems(announcementList);
+		DBConnection.disconnectToDB();
+	}
+	
+	// Navigation
+	public void navToNewAnnouncement(ActionEvent event) throws IOException
+	{
+		root = FXMLLoader.load(getClass().getResource("NewAnnouncementPage.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
-
+	
+	public void navToHomepage(ActionEvent event) throws IOException
+	{
+		System.out.println(getClass().getClassLoader());
+		System.out.println(getClass().getResource("/../application/Homepage.fxml"));
+//		root = FXMLLoader.load(getClass().getResource("../Homepage.fxml"));
+//		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+//		scene = new Scene(root);
+//		stage.setScene(scene);
+//		stage.show();
+	}
 	
 }
