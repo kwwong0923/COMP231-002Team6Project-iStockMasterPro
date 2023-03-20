@@ -1,4 +1,4 @@
-package application;
+package controllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-
+import application.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -80,11 +80,12 @@ public class HomepageController implements Initializable
 					resultSet.getString(2), 
 					resultSet.getDate(3)
 					);
-			System.out.println(newAnnouncement);
 			announcementList.add(newAnnouncement);
 		}
 		
 		announcementTableView.setItems(announcementList);
+		announcementTableView.getSortOrder().add(idTableColumn);
+		announcementTableView.sort();
 		DBConnection.disconnectToDB();
 	}
 
@@ -103,7 +104,7 @@ public class HomepageController implements Initializable
 	
 	public void navToAnnouncement(ActionEvent event) throws IOException
 	{
-		root = FXMLLoader.load(getClass().getResource("/announcementPage/AnnouncementPage.fxml"));
+		root = FXMLLoader.load(getClass().getResource("/pages/AnnouncementPage.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

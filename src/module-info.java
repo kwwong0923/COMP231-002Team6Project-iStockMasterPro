@@ -8,5 +8,6 @@ module iStockMasterPro {
 	
 	opens application to javafx.graphics, javafx.fxml;
 	opens sqlData to javafx.base;
-	opens announcementPage to javafx.fxml;
+	opens pages to javafx.fxml;
+	opens controllers to javafx.fxml;
 }

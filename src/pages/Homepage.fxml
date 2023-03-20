@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomepageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomepageController">
    <top>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Homepage" BorderPane.alignment="CENTER">
          <font>
@@ -109,7 +109,7 @@
    <center>
       <TableView fx:id="announcementTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="idTableColumn" editable="false" prefWidth="147.0" sortable="false" text="ID" />
+          <TableColumn fx:id="idTableColumn" prefWidth="147.0" text="ID" />
           <TableColumn fx:id="contentTableColumn" prefWidth="741.0" text="Content" />
             <TableColumn fx:id="dateTableColumn" prefWidth="95.0" text="Date" />
         </columns>

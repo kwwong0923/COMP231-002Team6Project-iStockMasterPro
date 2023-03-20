@@ -1,4 +1,4 @@
-package announcementPage;
+package controllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -84,17 +84,18 @@ public class AnnouncementController implements Initializable
 	    			resultSet.getString(2),
 	    			resultSet.getDate(3)
 	    			);
-			System.out.println(newAnnouncement);
 			announcementList.add(newAnnouncement);	    			
 	    }
 	    announcementTableView.setItems(announcementList);
+	    announcementTableView.getSortOrder().add(idTableColumn);
+		announcementTableView.sort();
 		DBConnection.disconnectToDB();
 	}
 	
 	// Navigation
 	public void navToNewAnnouncement(ActionEvent event) throws IOException
 	{
-		root = FXMLLoader.load(getClass().getResource("NewAnnouncementPage.fxml"));
+		root = FXMLLoader.load(getClass().getResource("/pages/NewAnnouncementPage.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -103,13 +104,11 @@ public class AnnouncementController implements Initializable
 	
 	public void navToHomepage(ActionEvent event) throws IOException
 	{
-		System.out.println(getClass().getClassLoader());
-		System.out.println(getClass().getResource("/../application/Homepage.fxml"));
-//		root = FXMLLoader.load(getClass().getResource("../Homepage.fxml"));
-//		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//		scene = new Scene(root);
-//		stage.setScene(scene);
-//		stage.show();
+		root = FXMLLoader.load(getClass().getResource("/pages/Homepage.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 	
 }
