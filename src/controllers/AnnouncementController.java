@@ -115,7 +115,8 @@ public class AnnouncementController implements Initializable
 			DBConnection.connectToDB();
 			String content = announcementTextArea.getText();
 			
-			String query = "INSERT INTO announcement (announcement_id, content, pub_date) VALUES ('A' || LPAD(announcement_id_seq.NEXTVAL, 4, '0'), ? , CURRENT_TIMESTAMP)";
+//			String query = "INSERT INTO announcement (announceid, content, pub_date) VALUES (LPAD(announceid_seq.NEXTVAL, 4, '0'), ? , CURRENT_TIMESTAMP)";
+			String query = "INSERT INTO announcement (announceid, content, pub_date) VALUES (announceid_seq.NEXTVAL, ? , CURRENT_TIMESTAMP)";
 			PreparedStatement pps = DBConnection.connection.prepareStatement(query);
 			pps.setString(1, content);
 			int count = pps.executeUpdate();
@@ -139,7 +140,6 @@ public class AnnouncementController implements Initializable
 	
 	public void clearButtonClick(ActionEvent event) throws IOException, SQLException
 	{
-		System.out.println("CLEAR");
 		announcementTextArea.clear();
 	}
 
@@ -147,7 +147,8 @@ public class AnnouncementController implements Initializable
 	{
 		DBConnection.connectToDB();
 		System.out.println(selectedItem);
-		String query = "UPDATE announcement SET content = ? WHERE announcement_id = ?";
+//		String query = "UPDATE announcement SET content = ? WHERE announcement_id = ?";
+		String query = "UPDATE announcement SET content = ? WHERE announceid = ?";
 		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
 		pps.setString(1, announcementTextArea.getText());
 		pps.setString(2, selectedItem.getAnnouncementId());
@@ -159,6 +160,7 @@ public class AnnouncementController implements Initializable
 		{
 			JOptionPane.showMessageDialog(null, "The announcement was edited");
 			getAnnouncementData();
+			announcementTextArea.clear();
 		}
 		else
 		{
@@ -173,7 +175,8 @@ public class AnnouncementController implements Initializable
 	{
 		DBConnection.connectToDB();
 
-		String query = "DELETE FROM announcement WHERE announcement_id = ?";
+//		String query = "DELETE FROM announcement WHERE announcement_id = ?";
+		String query = "DELETE FROM announcement WHERE announceid = ?";
 		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
 		pps.setString(1, selectedItem.getAnnouncementId());
 		int count = pps.executeUpdate();
@@ -182,6 +185,7 @@ public class AnnouncementController implements Initializable
 		{
 			JOptionPane.showMessageDialog(null, "The announcement was delted");
 			getAnnouncementData();
+			announcementTextArea.clear();
 		}
 		else
 		{
