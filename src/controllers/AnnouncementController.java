@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import application.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +23,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sqlData.Announcement;
 
@@ -33,6 +38,7 @@ public class AnnouncementController implements Initializable
 	
 	ObservableList<Announcement> announcementList;
 	
+	Announcement selectedItem;
 	// FXML elements
 	@FXML
 	private TableView<Announcement> announcementTableView;
@@ -46,6 +52,16 @@ public class AnnouncementController implements Initializable
 	private Button newAnnouncementButton;
 	@FXML
 	private Button homepageButton;
+	@FXML
+	private Button editButton;
+	@FXML
+	private Button deleteButton;
+	@FXML
+	private Button addButton;
+	@FXML
+	private Button clearButton;
+	@FXML
+	private TextArea announcementTextArea;
 	
 	
 	@Override
@@ -92,6 +108,98 @@ public class AnnouncementController implements Initializable
 		DBConnection.disconnectToDB();
 	}
 	
+	public void addButtonClick(ActionEvent event) throws IOException, SQLException
+	{
+		if (announcementTextArea.getText() != "")
+		{
+			DBConnection.connectToDB();
+			String content = announcementTextArea.getText();
+			
+			String query = "INSERT INTO announcement (announcement_id, content, pub_date) VALUES ('A' || LPAD(announcement_id_seq.NEXTVAL, 4, '0'), ? , CURRENT_TIMESTAMP)";
+			PreparedStatement pps = DBConnection.connection.prepareStatement(query);
+			pps.setString(1, content);
+			int count = pps.executeUpdate();
+			if (count > 0)
+			{
+				JOptionPane.showMessageDialog(null, "Announcement is published");
+				announcementTextArea.clear();
+				getAnnouncementData();
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Failed!");
+			}			
+			DBConnection.disconnectToDB();
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "The content cannot be blank");
+		}
+	}
+	
+	public void clearButtonClick(ActionEvent event) throws IOException, SQLException
+	{
+		System.out.println("CLEAR");
+		announcementTextArea.clear();
+	}
+
+	public void editButtonClick(ActionEvent event) throws IOException, SQLException
+	{
+		DBConnection.connectToDB();
+		System.out.println(selectedItem);
+		String query = "UPDATE announcement SET content = ? WHERE announcement_id = ?";
+		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
+		pps.setString(1, announcementTextArea.getText());
+		pps.setString(2, selectedItem.getAnnouncementId());
+		System.out.println(pps);
+		System.out.println(query);
+		int count = pps.executeUpdate();
+		System.out.println(count);
+		if (count > 0)
+		{
+			JOptionPane.showMessageDialog(null, "The announcement was edited");
+			getAnnouncementData();
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Failed to edit announcement");
+		}		
+		
+		DBConnection.disconnectToDB();
+	}
+
+
+	public void deleteButtonClick(ActionEvent event) throws IOException, SQLException
+	{
+		DBConnection.connectToDB();
+
+		String query = "DELETE FROM announcement WHERE announcement_id = ?";
+		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
+		pps.setString(1, selectedItem.getAnnouncementId());
+		int count = pps.executeUpdate();
+		
+		if (count > 0)
+		{
+			JOptionPane.showMessageDialog(null, "The announcement was delted");
+			getAnnouncementData();
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Failed to delete announcement");
+		}
+		
+		DBConnection.disconnectToDB();
+
+	}
+	
+	public void selectItem(MouseEvent event) throws IOException
+	{
+		System.out.println("SELECT");
+		selectedItem = announcementTableView.getSelectionModel().getSelectedItem();
+		System.out.println(selectedItem.getAnnouncementId());
+		announcementTextArea.setText(selectedItem.getContent());
+		
+	}
 	// Navigation
 	public void navToNewAnnouncement(ActionEvent event) throws IOException
 	{

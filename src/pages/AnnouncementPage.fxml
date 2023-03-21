@@ -4,10 +4,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -22,20 +25,8 @@
          </BorderPane.margin>
       </Text>
    </top>
-   <center>
-      <TableView fx:id="announcementTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn fx:id="idTableColumn" prefWidth="120.0" text="ID" />
-          <TableColumn fx:id="contentTableColumn" minWidth="0.0" prefWidth="750.0" text="Content" />
-            <TableColumn fx:id="dateTableColumn" minWidth="0.0" prefWidth="113.0" text="Date" />
-        </columns>
-         <BorderPane.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </BorderPane.margin>
-      </TableView>
-   </center>
    <bottom>
-      <GridPane prefHeight="170.0" prefWidth="968.0" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="132.0" prefWidth="1014.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -43,20 +34,11 @@
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin>
          <children>
-            <Button fx:id="newAnnouncementButton" mnemonicParsing="false" onAction="#navToNewAnnouncement" prefHeight="25.0" prefWidth="507.0" text="New Announcement" GridPane.rowIndex="1">
-               <font>
-                  <Font size="20.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </GridPane.margin>
-            </Button>
             <Button fx:id="homepageButton" mnemonicParsing="false" onAction="#navToHomepage" prefHeight="25.0" prefWidth="592.0" text="Homepage" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
@@ -65,7 +47,72 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </GridPane.margin>
             </Button>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox prefHeight="84.0" prefWidth="510.0">
+                     <children>
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonClick" prefHeight="44.0" prefWidth="247.0" text="Add">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButtonClick" prefHeight="44.0" prefWidth="247.0" text="Clear">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonClick" prefHeight="44.0" prefWidth="247.0" text="Edit">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonClick" prefHeight="44.0" prefWidth="247.0" text="Delete">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </bottom>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="announcementTableView" onMouseClicked="#selectItem" prefHeight="306.0" prefWidth="1024.0">
+              <columns>
+                <TableColumn fx:id="idTableColumn" prefWidth="120.0" text="ID" />
+                <TableColumn fx:id="contentTableColumn" minWidth="0.0" prefWidth="750.0" text="Content" />
+                  <TableColumn fx:id="dateTableColumn" minWidth="0.0" prefWidth="113.0" text="Date" />
+              </columns>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </TableView>
+            <TextArea fx:id="announcementTextArea" prefHeight="271.0" prefWidth="1024.0" promptText="Please enter the content">
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" top="5.0" />
+               </VBox.margin>
+            </TextArea>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>
