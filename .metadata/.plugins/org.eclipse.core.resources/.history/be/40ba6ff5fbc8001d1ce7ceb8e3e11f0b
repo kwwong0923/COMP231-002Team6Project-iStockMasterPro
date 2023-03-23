@@ -1,0 +1,41 @@
+package controllers;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
+import sqlData.Product;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class InventoryUpdateDialogController implements Initializable {
+
+    @FXML
+    private Spinner<Integer> idSpinner;
+
+    @FXML
+    private TextField nameField;
+
+    @FXML
+    private Spinner<Double> priceSpinner;
+
+    @FXML
+    private Spinner<Integer> stockLevelSpinner;
+
+    private Product selectedProduct;
+
+    public InventoryUpdateDialogController(Product selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Set the initial values of the text fields and spinners
+        idSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, selectedProduct.getId()));
+        nameField.setText(selectedProduct.getName());
+        priceSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0.01, Double.MAX_VALUE, selectedProduct.getPrice(), 0.01));
+        stockLevelSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, selectedProduct.getStockLevel()));
+    }
+}

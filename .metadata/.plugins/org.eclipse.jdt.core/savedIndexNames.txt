@@ -1,0 +1,23 @@
+INDEX VERSION 1.131+C:\Users\patri\OneDrive\Desktop\Inventory Project 1\.metadata\.plugins\org.eclipse.jdt.core
+1888680770.index
+729951370.index
+2119283491.index
+3894040964.index
+294013043.index
+2246402619.index
+2225330759.index
+1723082365.index
+1865797976.index
+3408896285.index
+3530094834.index
+1871496.index
+1523920940.index
+1853888937.index
+3184182335.index
+2276961917.index
+2866450425.index
+3328379962.index
+3416304033.index
+2128526239.index
+2836563429.index
+753625430.index

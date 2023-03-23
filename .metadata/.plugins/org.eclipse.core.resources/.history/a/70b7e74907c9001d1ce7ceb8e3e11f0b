@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Dialog?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<Dialog fx:id="editDialog" title="Edit Product" headerText="Edit the product details">
+    <dialogPane>
+        <DialogPane>
+            <buttonTypes>
+                <ButtonType text="Update" buttonData="OK_DONE"/>
+                <ButtonType text="Cancel" buttonData="CANCEL_CLOSE"/>
+            </buttonTypes>
+            <content>
+                <VBox spacing="10" padding="10">
+                    <Label text="ID:"/>
+                    <Spinner fx:id="idSpinner" initialValue="0" maxValue="2147483647"/>
+                    <Label text="Name:"/>
+                    <TextField fx:id="nameField"/>
+                    <Label text="Price:"/>
+                    <TextField fx:id="priceField"/>
+                    <Label text="Stock Level:"/>
+                    <Spinner fx:id="stockLevelSpinner" initialValue="0" maxValue="2147483647"/>
+                </VBox>
+            </content>
+        </DialogPane>
+    </dialogPane>
+    <resultConverter>
+        <StringConverter>
+            <Product fx:factory="create">
+                <id><SpinnerValueFactory.IntegerSpinnerValueFactory initialValue="0" maxValue="2147483647" /></id>
+                <name><StringBinding>${nameField.text}</StringBinding></name>
+                <price><DoubleBinding>${priceField.text}</DoubleBinding></price>
+                <stockLevel><SpinnerValueFactory.IntegerSpinnerValueFactory initialValue="0" maxValue="2147483647" /></stockLevel>
+            </Product>
+        </StringConverter>
+    </resultConverter>
+</Dialog>

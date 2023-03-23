@@ -1,0 +1,163 @@
+package controllers;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import application.DBConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import sqlData.Product;
+
+public class InventoryController implements Initializable{
+
+    @FXML
+    private TableView<Product> table;
+
+    @FXML
+    private TableColumn<Product, Integer> idColumn;
+
+    @FXML
+    private TableColumn<Product, String> nameColumn;
+
+    @FXML
+    private TableColumn<Product, Double> priceColumn;
+
+    @FXML
+    private TableColumn<Product, Integer> stockLevelColumn;
+    
+    @FXML
+    private Button editButton;
+
+    @FXML
+    private Button deleteButton;
+
+    @FXML
+    private Button addButton;
+    
+    @FXML
+    private ObservableList<Product> data;
+
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+        data = FXCollections.observableArrayList();
+        table.setItems(data);
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        stockLevelColumn.setCellValueFactory(new PropertyValueFactory<>("stockLevel"));
+        try {
+            loadProducts();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+	}
+
+    
+	public void loadProducts() throws SQLException {
+        DBConnection.connectToDB();
+        String sql = "SELECT * FROM inventory";
+        try (PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("productid");
+                String name = rs.getString("name");
+                double price = rs.getDouble("price");
+                int stockLevel = rs.getInt("stocklevel");
+                data.add(new Product(id, name, price, stockLevel));
+            }
+            } catch (SQLException ex) {
+                // Handle any SQL exceptions that occur
+                ex.printStackTrace();
+            } finally {
+                DBConnection.disconnectToDB();
+            }
+            
+        
+    }
+
+
+    public void handleEditButtonAction(ActionEvent event) {
+        // Get the selected product from the table
+        Product selectedProduct = table.getSelectionModel().getSelectedItem();
+
+        if (selectedProduct != null) {
+            // Create a new instance of the inventory update dialog
+            Dialog<Product> dialog = new Dialog<>();
+            dialog.setTitle("Edit Product");
+            dialog.setHeaderText("Edit the product details");
+
+            // Load the inventory update dialog FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pages/InventoryUpdateDialog.fxml"));
+            try {
+                dialog.getDialogPane().setContent(loader.load());
+                InventoryUpdateDialogController controller = loader.getController();
+
+                // Set the initial values of the text fields and spinners
+                controller.setProduct(selectedProduct);
+
+                // Set the dialog button types
+                dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+                // Show the inventory update dialog and wait for the user to click OK or Cancel
+                Optional<Product> result = dialog.showAndWait();
+
+                if (result.isPresent()) {
+                    // Update the selected product with the new values
+                    selectedProduct = result.get();
+
+                    // Update the database with the new product details
+                    DBConnection.connectToDB();
+                    String sql = "UPDATE inventory SET product_name = ?, price = ?, stocklevel = ? WHERE productid = ?";
+                    try (PreparedStatement statement = DBConnection.connection.prepareStatement(sql)) {
+                        statement.setString(1, selectedProduct.getName());
+                        statement.setDouble(2, selectedProduct.getPrice());
+                        statement.setInt(3, selectedProduct.getStockLevel());
+                        statement.setInt(4, selectedProduct.getId());
+                        statement.executeUpdate();
+                    } catch (SQLException ex) {
+                        // Handle any SQL exceptions that occur
+                        ex.printStackTrace();
+                    } finally {
+                        DBConnection.disconnectToDB();
+                    }
+
+                    // Refresh the table view to reflect the changes
+                    table.refresh();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // If no product is selected, show an error message
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Product Selected");
+            alert.setContentText("Please select a product in the table.");
+            alert.showAndWait();
+        }
+    }
+
+
+         
+
+
+   }
