@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OrderPageController">
+   <children>
+      <BorderPane prefHeight="768.0" prefWidth="1024.0">
+         <top>
+            <Label text="Order List" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+         </top>
+         <center>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="241.0" minHeight="0.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="600.0" minHeight="10.0" prefHeight="444.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="222.0" minHeight="10.0" prefHeight="222.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TableView prefHeight="543.0" prefWidth="1024.0" GridPane.rowIndex="1">
+                    <columns>
+                      <TableColumn prefWidth="323.0" text="Order no." />
+                      <TableColumn prefWidth="354.0" text="Staff ID" />
+                        <TableColumn prefWidth="346.0" text="Subtotal" />
+                    </columns>
+                  </TableView>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Order No.:" GridPane.halignment="RIGHT" />
+                        <TextField GridPane.columnIndex="1" />
+                        <Button mnemonicParsing="false" text="Search" GridPane.columnIndex="2" />
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.rowIndex="2">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button fx:id="btnAddOrder" mnemonicParsing="false" onAction="#navOrderItems" prefHeight="40.0" prefWidth="142.0" text="Add Order" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <TextField maxWidth="-Infinity" prefHeight="39.0" prefWidth="300.0" promptText="Enter Order no." GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <TextField maxWidth="-Infinity" prefHeight="39.0" prefWidth="300.0" promptText="Enter Staff ID" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <TextField maxWidth="-Infinity" prefHeight="39.0" prefWidth="300.0" promptText="Enter Subtotal" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <Button fx:id="btnHomePage" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#navHomePage" prefHeight="40.0" prefWidth="142.0" text="Home Page" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
