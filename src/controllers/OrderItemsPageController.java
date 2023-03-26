@@ -73,15 +73,18 @@ public class OrderItemsPageController implements Initializable {
         stage.show();
     }
     public int getOrderID() {
+        DBConnection.connectToDB();
         int orderId = 0;
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT NEXT VALUE FOR orderID_seq as order_id");
+            ResultSet rs = stmt.executeQuery("SELECT orderID_seq.nextval as order_id FROM dual");
             if (rs.next()) {
                 orderId = rs.getInt("order_id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBConnection.disconnectToDB();
         }
         return orderId;
     }
@@ -138,6 +141,7 @@ public class OrderItemsPageController implements Initializable {
             DBConnection.disconnectToDB();
         }return 0;
     }
+
     private int orderID;
     private double total;
     public void addItem(){
