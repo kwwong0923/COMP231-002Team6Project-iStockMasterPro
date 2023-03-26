@@ -33,11 +33,12 @@
                 <RowConstraints maxHeight="222.0" minHeight="10.0" prefHeight="222.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TableView prefHeight="543.0" prefWidth="1024.0" GridPane.rowIndex="1">
+                  <TableView fx:id="table" prefHeight="543.0" prefWidth="1024.0" GridPane.rowIndex="1">
                     <columns>
-                      <TableColumn prefWidth="323.0" text="Order no." />
-                      <TableColumn prefWidth="354.0" text="Staff ID" />
-                        <TableColumn prefWidth="346.0" text="Subtotal" />
+                      <TableColumn fx:id="tc_orderId" prefWidth="317.0" text="Order ID" />
+                      <TableColumn fx:id="tc_staffId" prefWidth="328.0" text="Staff ID" />
+                        <TableColumn fx:id="tc_total" prefWidth="177.0" text="Total" />
+                        <TableColumn fx:id="tc_date" prefWidth="177.0" text="Date" />
                     </columns>
                   </TableView>
                   <GridPane>
@@ -50,9 +51,9 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Order No.:" GridPane.halignment="RIGHT" />
-                        <TextField GridPane.columnIndex="1" />
-                        <Button mnemonicParsing="false" text="Search" GridPane.columnIndex="2" />
+                        <Label text="Order ID.:" GridPane.halignment="RIGHT" />
+                        <TextField fx:id="tf_orderID" GridPane.columnIndex="1" />
+                        <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#btnSearchClick" text="Search" GridPane.columnIndex="2" />
                      </children>
                   </GridPane>
                   <GridPane GridPane.rowIndex="2">
@@ -67,9 +68,6 @@
                     </rowConstraints>
                      <children>
                         <Button fx:id="btnAddOrder" mnemonicParsing="false" onAction="#navOrderItems" prefHeight="40.0" prefWidth="142.0" text="Add Order" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <TextField maxWidth="-Infinity" prefHeight="39.0" prefWidth="300.0" promptText="Enter Order no." GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                        <TextField maxWidth="-Infinity" prefHeight="39.0" prefWidth="300.0" promptText="Enter Staff ID" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                        <TextField maxWidth="-Infinity" prefHeight="39.0" prefWidth="300.0" promptText="Enter Subtotal" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                         <Button fx:id="btnHomePage" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#navHomePage" prefHeight="40.0" prefWidth="142.0" text="Home Page" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>

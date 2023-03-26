@@ -25,6 +25,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static application.DBConnection.connection;
@@ -98,6 +99,9 @@ public class OrderItemsPageController implements Initializable {
     }
 
     public void btnClearClick(ActionEvent actionEvent) {
+        tf_StaffID.clear();
+        tf_ProductID.clear();
+        tf_Quantity.clear();
     }
 
     public void btnAddItemClick(ActionEvent actionEvent) {
@@ -105,6 +109,8 @@ public class OrderItemsPageController implements Initializable {
         tf_ProductID.clear();
         tf_Quantity.clear();
     }
+    LocalDate date = LocalDate.now();
+
     private String getProductName(){
         int productID = Integer.parseInt(tf_ProductID.getText());
         DBConnection.connectToDB();
