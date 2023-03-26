@@ -76,8 +76,12 @@ public class OrderPageController implements Initializable{
             tc_total.setCellValueFactory(new PropertyValueFactory<>("total"));
             tc_staffId.setCellValueFactory(new PropertyValueFactory<>("staffId"));
             tc_date.setCellValueFactory(new PropertyValueFactory<>("date"));
-
+            //table.getItems().clear();
             table.getItems().addAll(orders);
+
+            tc_orderId.setSortType(TableColumn.SortType.ASCENDING);
+            table.getSortOrder().add(tc_orderId);
+            table.sort();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {

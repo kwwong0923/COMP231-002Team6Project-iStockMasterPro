@@ -21,10 +21,7 @@ import sqlData.Product;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -95,6 +92,7 @@ public class OrderItemsPageController implements Initializable {
     }
 
     public void navOrderList(ActionEvent actionEvent) throws IOException {
+        addOrder();
         Nav(actionEvent,"/pages/orderPage.fxml");
     }
 
@@ -110,7 +108,20 @@ public class OrderItemsPageController implements Initializable {
         tf_Quantity.clear();
     }
     LocalDate date = LocalDate.now();
-
+    public void addOrder(){
+        DBConnection.connectToDB();
+        int staffID = Integer.parseInt(tf_StaffID.getText());
+        String sql = "INSERT INTO ORDERS (orderID, total, staffID, order_date) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement insertOrderItemStatement = connection.prepareStatement(sql)) {
+            insertOrderItemStatement.setInt(1, orderID);
+            insertOrderItemStatement.setDouble(2, total);
+            insertOrderItemStatement.setInt(3, staffID);
+            insertOrderItemStatement.setDate(4, Date.valueOf(date));
+            insertOrderItemStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     private String getProductName(){
         int productID = Integer.parseInt(tf_ProductID.getText());
         DBConnection.connectToDB();
@@ -153,7 +164,7 @@ public class OrderItemsPageController implements Initializable {
     public void addItem(){
         int productID = Integer.parseInt(tf_ProductID.getText());
         int quantity = Integer.parseInt(tf_Quantity.getText());
-        int staffID = Integer.parseInt(tf_StaffID.getText());
+
         DBConnection.connectToDB();
 
         // get product price and name from the INVENTORY table
