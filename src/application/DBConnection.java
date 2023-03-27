@@ -10,12 +10,12 @@ public class DBConnection
 	// can be access directly
 	private static final String DRIVER = "oracle.jdbc.OracleDriver";
 	private static final String DATABASE_URL = "jdbc:oracle:thin:@199.212.26.208:1521:SQLD";
-	private static final String USERNAME = "COMP231_W23_hl_5";
+	private static final String USERNAME = "COMP231_W23_hl_6";
 	private static final String PASSWORD = "password";
 	public static Connection connection;
 	
 	// defend instance of DBConnection class
-	private DBConnection() {};
+	private DBConnection() {}
 	
 	public static void connectToDB()
 	{
