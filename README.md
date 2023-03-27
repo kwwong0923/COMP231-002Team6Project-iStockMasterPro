@@ -19,7 +19,7 @@ Method 2:
 After launching Eclipse IDE:
 
 1. Choose a directory for your workspace and click "Launch"
-2. Go to File > Import > Existing Projects into Workspace
+2. Go to File > Import > General > Existing Projects into Workspace
 3. For "Select root directory," choose the downloaded GitHub folder
 4. Click "Finish"
 5. In the Package Explorer, right-click the folder and choose Build Path > Configure Build Path…
