@@ -126,6 +126,8 @@ public class InventoryUpdateDialogController implements Initializable {
         
     }
     
+    
+    
 
     private void closeDialog() {
         // Retrieve the stage from the update button

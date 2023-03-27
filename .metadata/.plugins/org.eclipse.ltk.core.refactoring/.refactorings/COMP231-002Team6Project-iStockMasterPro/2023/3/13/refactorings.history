@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;COMP231-002Team6Project-iStockMasterPro/src/pages/InventoryAddDialog.fxml.fxml&apos; to &apos;InventoryAddDialog.fxml&apos;" description="Rename resource &apos;InventoryAddDialog.fxml.fxml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/pages/InventoryAddDialog.fxml.fxml" name="InventoryAddDialog.fxml" stamp="1679877541292" updateReferences="true"/>
+</session>

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import application.DBConnection;
 import javafx.collections.FXCollections;
@@ -19,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -142,6 +144,66 @@ public class InventoryController implements Initializable{
 	        alert.showAndWait();
 	    }
 	}
+	
+	public void handleAddButtonAction(ActionEvent event) throws SQLException{
+		
+        Dialog<Product> dialog = new Dialog<>();
+        dialog.setTitle("Add Product");
+        // Load the inventory update dialog FXML file
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/pages/InventoryAddDialog.fxml"));
+        try {
+            dialog.getDialogPane().setContent(loader.load());
+            InventoryAddDialogController controller = loader.getController();
+            if (controller != null) {
+            	dialog.showAndWait();
+            	
+            	data.clear();
+            	loadProducts();
+            }
+	   } catch (IOException e) {
+	            e.printStackTrace();
+	   }
+		
+	}
+	
+	
+	public void handleDeleteButtonAction(ActionEvent event) throws SQLException {
+	    // Get the selected product from the table view
+	    Product selectedProduct = table.getSelectionModel().getSelectedItem();
+	    if (selectedProduct != null) {
+	        // Show a confirmation dialog before deleting the product
+	        Alert alert = new Alert(AlertType.CONFIRMATION);
+	        alert.setTitle("Delete Product");
+	        alert.setHeaderText("Are you sure you want to delete the selected product?");
+	        alert.setContentText("This action cannot be undone.");
+	        Optional<ButtonType> result = alert.showAndWait();
+	        if (result.isPresent() && result.get() == ButtonType.OK) {
+	            // Delete the selected product from the database
+	            DBConnection.connectToDB();
+	            String sql = "DELETE FROM inventory WHERE productid = ?";
+	            try (PreparedStatement statement = DBConnection.connection.prepareStatement(sql)) {
+	                statement.setInt(1, selectedProduct.getId());
+	                statement.executeUpdate();
+	            } catch (SQLException ex) {
+	                // Handle any SQL exceptions that occur
+	                ex.printStackTrace();
+	            } finally {
+	                DBConnection.disconnectToDB();
+	            }
+
+	            // Remove the selected product from the table view
+	            data.remove(selectedProduct);
+	        }
+	    } else {
+	        // If no product is selected, show an error message
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Delete Product");
+	        alert.setHeaderText("No product selected");
+	        alert.setContentText("Please select a product to delete.");
+	        alert.showAndWait();
+	    }
+	}
+
 	
 	public void navToHomepage(ActionEvent event) throws IOException
 	{

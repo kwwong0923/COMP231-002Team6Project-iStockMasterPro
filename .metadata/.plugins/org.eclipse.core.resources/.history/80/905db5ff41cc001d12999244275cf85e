@@ -1,0 +1,128 @@
+package controllers;
+
+import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
+
+import application.DBConnection;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import sqlData.Product;
+
+public class InventoryAddDialogController implements Initializable {
+    @FXML
+    private Spinner<Integer> idSpinner1;
+
+    @FXML
+    private TextField nameField1;
+
+    @FXML
+    private TextField priceField1;
+
+    @FXML
+    private Spinner<Integer> stockLevelSpinner1;
+
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button cancelButton;
+    
+    
+    private Product product;
+
+
+@Override
+public void initialize(URL arg0, ResourceBundle arg1) {
+    // Set the initial values of the text fields and spinners
+    idSpinner1.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE,
+            product != null ? product.getId() : 1));
+    nameField1.setText(product != null ? product.getName() : "");
+    priceField1.setText(product != null ? Double.toString(product.getPrice()) : "");
+    stockLevelSpinner1.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE,
+            product != null ? product.getStockLevel() : 0));
+}
+
+
+
+public int getIdSpinnerValue() {
+    return idSpinner1.getValue();
+}
+
+public String getNameFieldValue() {
+    return nameField1.getText();
+}
+
+public double getPriceFieldValue() {
+    return Double.parseDouble(priceField1.getText());
+}
+
+public int getStockLevelSpinnerValue() {
+    return stockLevelSpinner1.getValue();
+}
+
+
+private void addProduct() {
+	// Retrieve the data from the UI
+    int id = getIdSpinnerValue();
+    String name = getNameFieldValue();
+    double price = getPriceFieldValue();
+    int stockLevel = getStockLevelSpinnerValue();
+	// Create a new Product object with the data
+	Product newProduct = new Product(id, name, price, stockLevel);
+
+	// Insert the new product into the database
+	DBConnection.connectToDB();
+	String sql = "INSERT INTO inventory (productid, product_name, price, stock) VALUES (?, ?, ?, ?)";
+	try (PreparedStatement statement = DBConnection.connection.prepareStatement(sql)) {
+	    statement.setInt(1, newProduct.getId());
+	    statement.setString(2, newProduct.getName());
+	    statement.setDouble(3, newProduct.getPrice());
+	    statement.setInt(4, newProduct.getStockLevel());
+	    statement.executeUpdate();
+	} catch (SQLException ex) {
+	    // Handle any SQL exceptions that occur
+	    ex.printStackTrace();
+	} finally {
+	    DBConnection.disconnectToDB();
+	}
+
+	JOptionPane.showMessageDialog(null, "The product ID: " + newProduct.getId() + " has been added successfully.");
+
+	// TODO: Save the new product to the database
+
+	// Close the dialog
+	closeButtonDialog();
+
+}
+
+@FXML
+private void closeButtonDialog() {
+    // Retrieve the stage from the update button
+    Stage stage = (Stage) addButton.getScene().getWindow();
+
+    // Close the stage
+    stage.close();
+}
+
+@FXML
+private void handleAddBtnAction(ActionEvent event) {
+   addProduct();
+}
+
+@FXML
+private void handleCancelBtnAction(ActionEvent event) {
+	closeButtonDialog();
+}
+
+
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OrderItemsPageController">
+   <children>
+      <BorderPane prefHeight="768.0" prefWidth="1024.0">
+         <center>
+            <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="tc_OrderID" prefWidth="95.0" text="OrderID" />
+                <TableColumn fx:id="tc_ProductName" prefWidth="269.0" text="Item" />
+                  <TableColumn fx:id="tc_Price" prefWidth="89.0" text="Unit Price " />
+                  <TableColumn fx:id="tc_Quantity" prefWidth="109.0" text="Quantity" />
+                  <TableColumn fx:id="tc_SubTotal" prefWidth="109.0" text="Sub Total" />
+              </columns>
+            </TableView>
+         </center>
+         <right>
+            <GridPane prefHeight="768.0" prefWidth="352.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Staff ID" GridPane.halignment="CENTER" />
+                  <Label text="Enter ProductID" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <Label text="Quantity" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                  <Label text="Order ID" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <TextField fx:id="tf_StaffID" GridPane.columnIndex="1" />
+                  <TextField fx:id="tf_ProductID" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="tf_OrderID" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="tf_Quantity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Button fx:id="btn_Clear" mnemonicParsing="false" onAction="#btnClearClick" text="Clear" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                  <Button fx:id="btn_AddItem" mnemonicParsing="false" onAction="#btnAddItemClick" text="Add Item" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
+         </right>
+         <bottom>
+            <GridPane prefHeight="122.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="btnHomePage" mnemonicParsing="false" onAction="#navHomePage" text="Back To Home Page" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="btnOrderList" mnemonicParsing="false" onAction="#navOrderList" text="Add Order" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </bottom>
+         <top>
+            <Label text="Add Items" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
