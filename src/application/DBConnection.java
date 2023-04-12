@@ -15,7 +15,7 @@ public class DBConnection
 	public static Connection connection;
 	
 	// defend instance of DBConnection class
-	private DBConnection() {};
+	private DBConnection() {}
 	
 	public static void connectToDB()
 	{

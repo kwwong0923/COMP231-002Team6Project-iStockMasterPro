@@ -10,10 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sqlData.OrderItem;
@@ -29,13 +26,17 @@ import static application.DBConnection.connection;
 
 public class OrderItemsPageController implements Initializable {
 
-    @FXML public TableView table;
+    @FXML
+    public TableView table;
+    @FXML
+    public Label label_OrderId;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         orderID = getOrderID();
         total = 0.0;
-        tf_OrderID.setText(String.valueOf(orderID));
+        label_OrderId.setText(String.valueOf(orderID));
+        //tf_OrderID.setText(String.valueOf(orderID));
 
     }
     private static Stage stage;
@@ -109,6 +110,16 @@ public class OrderItemsPageController implements Initializable {
     }
     LocalDate date = LocalDate.now();
     public void addOrder(){
+        String staffIDText = tf_StaffID.getText();
+
+        if (staffIDText.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Missing information");
+            alert.setContentText("Please enter your staff ID.");
+            alert.showAndWait();
+            return;
+        }
         DBConnection.connectToDB();
         int staffID = Integer.parseInt(tf_StaffID.getText());
         String sql = "INSERT INTO ORDERS (orderID, total, staffID, order_date) VALUES (?, ?, ?, ?)";
@@ -122,52 +133,26 @@ public class OrderItemsPageController implements Initializable {
             e.printStackTrace();
         }
     }
-    private String getProductName(){
-        int productID = Integer.parseInt(tf_ProductID.getText());
-        DBConnection.connectToDB();
-
-        String sql = "SELECT product_name FROM INVENTORY WHERE productID = ?";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, productID);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getString("product_name");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            DBConnection.disconnectToDB();
-        }return null;
-    }
-    private int getProductPrice(){
-        int productID = Integer.parseInt(tf_ProductID.getText());
-        DBConnection.connectToDB();
-
-        String sql = "SELECT price FROM INVENTORY WHERE productID = ?";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, productID);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("price");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            DBConnection.disconnectToDB();
-        }return 0;
-    }
-
     private int orderID;
     private double total;
     public void addItem(){
+        String productIDText = tf_ProductID.getText();
+        String quantityText = tf_Quantity.getText();
+
+        if (productIDText.isEmpty() || quantityText.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Missing information");
+            alert.setContentText("Please enter both the product ID and quantity.");
+            alert.showAndWait();
+            return;
+        }
+
         int productID = Integer.parseInt(tf_ProductID.getText());
         int quantity = Integer.parseInt(tf_Quantity.getText());
 
         DBConnection.connectToDB();
 
-        // get product price and name from the INVENTORY table
         String getProductSql = "SELECT product_name, price FROM INVENTORY WHERE productID = ?";
         try (PreparedStatement getProductStatement = connection.prepareStatement(getProductSql)) {
             getProductStatement.setInt(1, productID);
@@ -200,9 +185,12 @@ public class OrderItemsPageController implements Initializable {
                 tc_Price.setCellValueFactory(new PropertyValueFactory("price"));
                 tc_SubTotal.setCellValueFactory(new PropertyValueFactory("subtotal"));
                 table.getItems().addAll(orderItems);
-
-
             } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Product not found");
+                alert.setContentText("The product ID entered does not exist.");
+                alert.showAndWait();
             }
         } catch (SQLException e) {
             e.printStackTrace();
