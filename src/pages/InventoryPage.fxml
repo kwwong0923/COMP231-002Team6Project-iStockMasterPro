@@ -18,7 +18,7 @@
          </font></Label>
    </top>
    <center>
-      <TableView fx:id="table" maxHeight="300.0" maxWidth="900.0" BorderPane.alignment="TOP_CENTER">
+      <TableView fx:id="table" maxHeight="305.0" maxWidth="900.0" prefHeight="305.0" prefWidth="900.0" BorderPane.alignment="TOP_CENTER">
         <columns>
           <TableColumn fx:id="idColumn" maxWidth="2000.0" minWidth="-Infinity" prefWidth="225.0" text="ID" />
           <TableColumn fx:id="nameColumn" maxWidth="2000.0" prefWidth="225.0" text="Name" />
@@ -44,9 +44,9 @@
                   <Insets left="70.0" />
                </VBox.margin>
             </HBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefHeight="186.0" prefWidth="1023.0">
                <children>
-                  <Button fx:id="homepageButton" mnemonicParsing="false" onAction="#navToHomepage" prefHeight="70.0" prefWidth="230.0" text="Home">
+                  <Button fx:id="homepageButton" mnemonicParsing="false" onAction="#navToHomepage" prefHeight="70.0" prefWidth="230.0" text="Homepage">
                      <VBox.margin>
                         <Insets left="400.0" top="60.0" />
                      </VBox.margin>
