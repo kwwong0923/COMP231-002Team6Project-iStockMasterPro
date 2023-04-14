@@ -82,7 +82,6 @@ public class FinancialReportController implements Initializable
 		int month = (int) monthComboBox.getValue();
 		int year = (int) yearComboBox.getValue();
 		
-		JOptionPane.showMessageDialog(null, month + " " + year);
 		double profit;
 		try 
 		{
@@ -129,7 +128,6 @@ public class FinancialReportController implements Initializable
 			staffName = result.getString(1);
 			highestOrderItemList = getHighestProfitOrderItems(result.getInt(2));
 			highestOrderDetail = new OrderDetail(result.getInt(2), staffName, result.getDouble(3), highestOrderItemList);
-			JOptionPane.showMessageDialog(null, highestOrderDetail);
 			highestOrderDetailList.add(highestOrderDetail);
 		}
 		return;		
