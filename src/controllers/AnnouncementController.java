@@ -67,7 +67,6 @@ public class AnnouncementController implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		System.out.println("HEY");
 		try 
 		{
 			getAnnouncementData();
@@ -195,7 +194,6 @@ public class AnnouncementController implements Initializable
 	
 	public void selectItem(MouseEvent event) throws IOException
 	{
-		System.out.println("SELECT");
 		selectedItem = announcementTableView.getSelectionModel().getSelectedItem();
 		System.out.println(selectedItem.getAnnouncementId());
 		announcementTextArea.setText(selectedItem.getContent());

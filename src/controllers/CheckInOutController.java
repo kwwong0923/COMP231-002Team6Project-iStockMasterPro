@@ -74,31 +74,33 @@ public class CheckInOutController implements Initializable
 		DBConnection.connectToDB();
 		
 		String staffId = staffNumberTextField.getText();
-		String staffIdQuery = "SELECT * FROM staff WHERE staffid = ?";
-		PreparedStatement pps = DBConnection.connection.prepareStatement(staffIdQuery);
-		pps.setString(1, staffId);
-		ResultSet resultSet = pps.executeQuery();
+		ResultSet resultSet = checkStaffId(staffId);
 		
 		if(!resultSet.next())
 		{
 			JOptionPane.showMessageDialog(null, "The Staff Id is invalid");
+			DBConnection.disconnectToDB();
+			return;
+		}
+		
+		String staffName = resultSet.getString(2);
+
+		if (isCheckInOrOutAlready(staffId, true))
+		{
+			JOptionPane.showMessageDialog(null, staffName + " has checked in today");
+			DBConnection.disconnectToDB();	
+			return;
+		}
+		
+		int count = addCheckInOrOutRecord(staffId, true);
+		if (count > 0)
+		{
+			JOptionPane.showMessageDialog(null, staffName + " Check In Successfully");
 		}
 		else
 		{
-			String staffName = resultSet.getString(2);
-			String query = "INSERT INTO checkinandout (staffid, time, is_check_in) VALUES (?, SYSDATE, 'T')";
-			pps = DBConnection.connection.prepareStatement(query);
-			pps.setString(1, staffId);
-			int count = pps.executeUpdate();
-			if (count > 0)
-			{
-				JOptionPane.showMessageDialog(null, staffName + " Checked-In");
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, "Failed to check in");
-			}
-		}
+			JOptionPane.showMessageDialog(null, "Failed to check in");
+		}		
 		
 		DBConnection.disconnectToDB();		
 	}
@@ -108,35 +110,82 @@ public class CheckInOutController implements Initializable
 		DBConnection.connectToDB();
 		
 		String staffId = staffNumberTextField.getText();
-		String staffIdQuery = "SELECT * FROM staff WHERE staffid = ?";
-		PreparedStatement pps = DBConnection.connection.prepareStatement(staffIdQuery);
-		pps.setString(1, staffId);
-		ResultSet resultSet = pps.executeQuery();
+		ResultSet resultSet = checkStaffId(staffId);
 		
 		if(!resultSet.next())
 		{
 			JOptionPane.showMessageDialog(null, "The Staff Id is invalid");
+			DBConnection.disconnectToDB();
+			return;
+		}
+		
+		String staffName = resultSet.getString(2);
+		
+		int count = addCheckInOrOutRecord(staffId, false);
+		if (count > 0)
+		{
+			JOptionPane.showMessageDialog(null, staffName + " Check Out Successfully");
 		}
 		else
 		{
-			String staffName = resultSet.getString(2);
-			String query = "INSERT INTO checkinandout (staffid, time, is_check_in) VALUES (?, SYSDATE, 'F')";
-			pps = DBConnection.connection.prepareStatement(query);
-			pps.setString(1, staffId);
-			int count = pps.executeUpdate();
-			if (count > 0)
-			{
-				JOptionPane.showMessageDialog(null, staffName + "Checked-Out");
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, "Failed to check out");
-			}
-		}
+			JOptionPane.showMessageDialog(null, "Failed to check out");
+		}		
 		
-		DBConnection.disconnectToDB();	
+		DBConnection.disconnectToDB();		
+
 	}
 	
+	public ResultSet checkStaffId(String staffId) throws SQLException
+	{
+		String staffIdQuery = "SELECT * FROM staff WHERE staffid = ?";
+		PreparedStatement pps = DBConnection.connection.prepareStatement(staffIdQuery);
+		pps.setString(1, staffId);
+		ResultSet resultSet = pps.executeQuery();
+		return resultSet;
+	}
+	
+	public int addCheckInOrOutRecord(String staffId, boolean checkIn) throws SQLException
+	{
+		String query = "";
+		if (checkIn)
+		{
+			query = "INSERT INTO checkinandout (staffid, working_date, check_in_time) VALUES "
+					+ "(?, CAST(CURRENT_TIMESTAMP AS DATE), CURRENT_TIMESTAMP)";
+		}
+		else
+		{
+			query = "UPDATE checkinandout SET check_out_time = CURRENT_TIMESTAMP "
+					+ "WHERE staffid = ? AND TRUNC(working_date) = TRUNC(CURRENT_TIMESTAMP)";
+		}
+		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
+		pps.setString(1, staffId);
+		int count = pps.executeUpdate();
+		return count;
+	}
+	
+	public boolean isCheckInOrOutAlready(String staffId, boolean checkIn) throws SQLException
+	{
+		String query = "";
+
+		if (checkIn)
+		{
+			query = "SELECT * FROM checkinandout WHERE staffid = ? AND TRUNC(working_date) = TRUNC(CURRENT_TIMESTAMP) AND check_in_time IS NOT NULL";
+		}
+		else
+		{
+			query = "SELECT * FROM checkinandout WHERE staffid = ? AND TRUNC(working_date) = TRUNC(CURRENT_TIMESTAMP) AND check_out_time IS NOT NULL";
+		}
+		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
+		pps.setString(1, staffId);
+		ResultSet resultSet = pps.executeQuery();
+		if (resultSet.next())
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	// Navigation
 	public void homeButtonClick(ActionEvent event) throws IOException
 	{
 		root = FXMLLoader.load(getClass().getResource("/pages/Homepage.fxml"));
