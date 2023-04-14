@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AccountantController">
+   <top>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Check-In/Out Records" textAlignment="CENTER" wrappingWidth="1024.13671875" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="35.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets top="20.0" />
+         </BorderPane.margin>
+      </Text>
+   </top>
+   <center>
+      <TableView fx:id="timeRecordTableView" prefHeight="461.0" prefWidth="984.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="idTableColumn" prefWidth="197.0" text="Staff ID" />
+          <TableColumn fx:id="nameTableColumn" minWidth="0.0" prefWidth="197.0" text="Name" />
+            <TableColumn fx:id="dateTableColumn" prefWidth="197.0" text="Date" />
+            <TableColumn fx:id="checkInTableColumn" prefWidth="197.0" text="Check-In" />
+            <TableColumn fx:id="checkOutTableColumn" prefWidth="195.0" text="Check-Out" />
+        </columns>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
+         </BorderPane.margin>
+      </TableView>
+   </center>
+   <bottom>
+      <GridPane prefHeight="179.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="reportButton" mnemonicParsing="false" onAction="#navToReport" prefHeight="44.0" prefWidth="510.0" text="Financial Report" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="homepageButton" mnemonicParsing="false" onAction="#navToHomepage" prefHeight="44.0" prefWidth="510.0" text="Homepage" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </GridPane.margin>
+            </Button>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="searchTextField" prefHeight="45.0" prefWidth="250.0">
+                     <padding>
+                        <Insets bottom="14.0" left="20.0" right="20.0" top="14.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchByID" prefHeight="44.0" prefWidth="218.0" text="Search By ID">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" right="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Button fx:id="showAllButton" mnemonicParsing="false" onAction="#showAllRecords" prefHeight="44.0" prefWidth="510.0" text="Show All Records" GridPane.columnIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </GridPane.margin>
+            </Button>
+         </children>
+      </GridPane>
+   </bottom>
+</BorderPane>

@@ -38,7 +38,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin>
          <children>
-            <Button fx:id="checkinoutButton" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="80.0" prefWidth="350.0" text="Check-InOut" textAlignment="CENTER">
+            <Button fx:id="checkinoutButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#navToCheckInAndOut" prefHeight="80.0" prefWidth="350.0" text="Check-InOut" textAlignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -87,7 +87,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="accountantButton" alignment="CENTER" contentDisplay="CENTER" layoutX="346.0" layoutY="93.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="350.0" text="Accountant" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="accountantButton" alignment="CENTER" contentDisplay="CENTER" layoutX="346.0" layoutY="93.0" mnemonicParsing="false" onAction="#navToAccountant" prefHeight="80.0" prefWidth="350.0" text="Accountant" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>

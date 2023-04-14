@@ -67,7 +67,6 @@ public class AnnouncementController implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		System.out.println("HEY");
 		try 
 		{
 			getAnnouncementData();
@@ -115,7 +114,6 @@ public class AnnouncementController implements Initializable
 			DBConnection.connectToDB();
 			String content = announcementTextArea.getText();
 			
-//			String query = "INSERT INTO announcement (announceid, content, pub_date) VALUES (LPAD(announceid_seq.NEXTVAL, 4, '0'), ? , CURRENT_TIMESTAMP)";
 			String query = "INSERT INTO announcement (announceid, content, pub_date) VALUES (announceid_seq.NEXTVAL, ? , CURRENT_TIMESTAMP)";
 			PreparedStatement pps = DBConnection.connection.prepareStatement(query);
 			pps.setString(1, content);
@@ -147,7 +145,6 @@ public class AnnouncementController implements Initializable
 	{
 		DBConnection.connectToDB();
 		System.out.println(selectedItem);
-//		String query = "UPDATE announcement SET content = ? WHERE announcement_id = ?";
 		String query = "UPDATE announcement SET content = ? WHERE announceid = ?";
 		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
 		pps.setString(1, announcementTextArea.getText());
@@ -175,7 +172,6 @@ public class AnnouncementController implements Initializable
 	{
 		DBConnection.connectToDB();
 
-//		String query = "DELETE FROM announcement WHERE announcement_id = ?";
 		String query = "DELETE FROM announcement WHERE announceid = ?";
 		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
 		pps.setString(1, selectedItem.getAnnouncementId());
@@ -198,7 +194,6 @@ public class AnnouncementController implements Initializable
 	
 	public void selectItem(MouseEvent event) throws IOException
 	{
-		System.out.println("SELECT");
 		selectedItem = announcementTableView.getSelectionModel().getSelectedItem();
 		System.out.println(selectedItem.getAnnouncementId());
 		announcementTextArea.setText(selectedItem.getContent());
