@@ -15,7 +15,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
@@ -23,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import sqlData.Order;
 import sqlData.OrderDetail;
 import sqlData.OrderItem;
@@ -30,10 +35,10 @@ import sqlData.TimeRecord;
 
 public class FinancialReportController implements Initializable
 {
-	@FXML
-	private RadioButton monthlyRadio;
-	@FXML
-	private RadioButton yearlyRadio;
+	private Stage stage;
+	private Scene scene;
+	private Parent root;
+	
 	@FXML
 	private ComboBox monthComboBox;
 	@FXML
@@ -41,7 +46,15 @@ public class FinancialReportController implements Initializable
 	@FXML
 	private Button generateButton;
 	@FXML
+	private Button backButton;
+	@FXML
+	private Button homepageButton;
+	@FXML
 	private Text profitText;
+	@FXML
+	private Text bestSellingProductText;
+	@FXML
+	private Text bestSellingQuantityText;
 	@FXML
 	private TableView<OrderDetail> highestOrderTableView;
 	@FXML
@@ -58,6 +71,7 @@ public class FinancialReportController implements Initializable
 	private TableColumn<OrderItem, Integer> quantityTableColumn;
 	@FXML
 	private TableColumn<OrderItem, Double> priceTableColumn;
+	
 	
 	//------------
 	ObservableList<OrderDetail> highestOrderDetailList;
@@ -86,11 +100,19 @@ public class FinancialReportController implements Initializable
 		try 
 		{
 			DBConnection.connectToDB();
-
 			profit = getWholeProfit(month, year);
-			profitText.setText("$" + Double.toString(profit));
-			getHighestProfitOrder(month, year);
-			displayOrderDetail(highestOrderDetailList, highestOrderItemList);
+			if (profit == 0)
+			{
+				noRecord();
+			}
+			else
+			{
+				profitText.setText("$" + Double.toString(profit));
+				getHighestProfitOrder(month, year);
+				displayOrderDetail(highestOrderDetailList, highestOrderItemList);
+				DisplayBestSellingProduct(month, year);
+			}
+			
 
 		} 
 		catch (SQLException e) 
@@ -171,7 +193,6 @@ public class FinancialReportController implements Initializable
 		setTableViewColumn();
 		highestOrderTableView.setItems(orderDetail);
 		orderDetailTabelView.setItems(orderItemList);
-
 	}
 	
 	private void setTableViewColumn()
@@ -183,7 +204,62 @@ public class FinancialReportController implements Initializable
 		productNameTableColumn.setCellValueFactory(new PropertyValueFactory<OrderItem, String>("productName"));
 		quantityTableColumn.setCellValueFactory(new PropertyValueFactory<OrderItem, Integer>("quantity"));
 		priceTableColumn.setCellValueFactory(new PropertyValueFactory<OrderItem, Double>("price"));
+	}
+	
+	private void DisplayBestSellingProduct(int month, int year) throws SQLException
+	{
+		String query = "SELECT i.product_name, SUM(oi.quantity) AS total_quantity "
+				+ "FROM orderItems oi JOIN inventory i ON oi.productid = i.productid "
+				+ "JOIN orders o ON o.orderid = oi.orderid "
+				+ "WHERE EXTRACT(MONTH FROM order_date) = ? AND EXTRACT(YEAR FROM order_date) = ? "
+				+ "GROUP BY oi.productid, i.product_name ORDER BY total_quantity DESC FETCH FIRST 1 ROW ONLY";
+		PreparedStatement pps = DBConnection.connection.prepareStatement(query);
+		pps.setInt(1, month);
+		pps.setInt(2, year);
+		ResultSet result = pps.executeQuery();
+		while (result.next())
+		{
+			bestSellingProductText.setText(result.getString(1));
+			bestSellingQuantityText.setText(Integer.toString(result.getInt(2)));
+		}
+	}
+	
+	public void noRecord()
+	{
+		JOptionPane.showMessageDialog(null, "No Record");
+		profitText.setText("No Record");
+		bestSellingProductText.setText("No Record");
+		bestSellingQuantityText.setText("No Record");
+		if (highestOrderDetailList != null)
+		{
+			highestOrderDetailList.clear();
 
+		}
+		if (highestOrderItemList != null)
+		{
+			highestOrderItemList.clear();
+
+		}
+	}
+	
+	
+	// nav
+	public void navToAccountant(ActionEvent event) throws IOException
+	{
+		root = FXMLLoader.load(getClass().getResource("/pages/AccountantPage.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	public void navToHomepage(ActionEvent event) throws IOException
+	{
+		root = FXMLLoader.load(getClass().getResource("/pages/Homepage.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 }
