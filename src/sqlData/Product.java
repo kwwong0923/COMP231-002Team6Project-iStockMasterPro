@@ -10,6 +10,11 @@ public class Product {
     private final SimpleDoubleProperty price;
     private final SimpleIntegerProperty stock;
     
+//    public Product(String name, double price)
+//    {
+//    	this.name = name;
+//    	this.price = price
+//    }
     public Product(int id, String name, double price, int stock) {
         this.id = new SimpleIntegerProperty(id);
         this.name = new SimpleStringProperty(name);

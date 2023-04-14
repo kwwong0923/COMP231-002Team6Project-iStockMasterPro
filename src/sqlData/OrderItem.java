@@ -63,5 +63,20 @@ public class OrderItem {
         this.price = price;
         this.subtotal = subtotal;
     }
+    
+    public OrderItem(int orderId, String productName, int quantity, double price) 
+    {
+        this.orderId = orderId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.price = price;
+        this.subtotal = subtotal;
+    }
+    
+    @Override
+	public String toString()
+	{
+		return productName + "-" + quantity + "-" + price;
+	}
 
 }

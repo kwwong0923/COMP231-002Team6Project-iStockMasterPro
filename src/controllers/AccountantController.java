@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import application.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,7 +86,11 @@ public class AccountantController implements Initializable{
 		{
 			DBConnection.connectToDB();
 			ResultSet result = readEmployeeRecord(staffId);
-			displayTimeRecordInTableView(result);
+			if (result != null)
+			{
+				displayTimeRecordInTableView(result);
+
+			}
 		} 
 		catch (SQLException e) 
 		{
@@ -125,12 +131,15 @@ public class AccountantController implements Initializable{
 	
 	public void navToReport(ActionEvent event) throws IOException
 	{
-		
-		
+		root = FXMLLoader.load(getClass().getResource("/pages/FinancialReportPage.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();		
 	}
 	
 	public ResultSet readEmployeeRecord() throws SQLException
-	{		
+	{				
 		String query = "SELECT chk.staffid, s.staff_name, chk.working_date, TO_CHAR(chk.check_in_time, 'HH:MI:SS AM') AS check_in_time, TO_CHAR(chk.check_out_time, 'HH:MI:SS AM') AS check_out_time\r\n"
 				+ "FROM checkinandout chk\r\n"
 				+ "JOIN staff s\r\n"
@@ -141,7 +150,14 @@ public class AccountantController implements Initializable{
 	}
 	
 	public ResultSet readEmployeeRecord(String staffId) throws SQLException
-	{
+	{		
+		if(checkStaffId(staffId))
+		{
+			JOptionPane.showMessageDialog(null, "The Staff Id is invalid");
+			DBConnection.disconnectToDB();
+			return null;
+		}
+		
 		String query = "SELECT chk.staffid, s.staff_name, chk.working_date, TO_CHAR(chk.check_in_time, 'HH:MI:SS AM') AS check_in_time, TO_CHAR(chk.check_out_time, 'HH:MI:SS AM') AS check_out_time\r\n"
 				+ "FROM checkinandout chk\r\n"
 				+ "JOIN staff s\r\n"
@@ -151,6 +167,19 @@ public class AccountantController implements Initializable{
 		pps.setString(1, staffId);
 		ResultSet resultSet = pps.executeQuery();
 		return resultSet;
+	}
+	
+	public boolean checkStaffId(String staffId) throws SQLException
+	{
+		String staffIdQuery = "SELECT * FROM staff WHERE staffid = ?";
+		PreparedStatement pps = DBConnection.connection.prepareStatement(staffIdQuery);
+		pps.setString(1, staffId);
+		ResultSet resultSet = pps.executeQuery();
+		if (resultSet.next())
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	public void displayTimeRecordInTableView(ResultSet result) throws SQLException

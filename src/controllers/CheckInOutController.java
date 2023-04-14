@@ -141,6 +141,7 @@ public class CheckInOutController implements Initializable
 		PreparedStatement pps = DBConnection.connection.prepareStatement(staffIdQuery);
 		pps.setString(1, staffId);
 		ResultSet resultSet = pps.executeQuery();
+		
 		return resultSet;
 	}
 	
