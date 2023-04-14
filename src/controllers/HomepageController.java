@@ -128,15 +128,29 @@ public class HomepageController implements Initializable
 		stage.show();
 	}
 	
+
+	public void navToTechSupport(ActionEvent event) throws IOException
+	{
+		root = FXMLLoader.load(getClass().getResource("/pages/CasePage.fxml"));
+
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+
 	public void navToCheckInAndOut(ActionEvent event) throws IOException
 	{
 		root = FXMLLoader.load(getClass().getResource("/pages/CheckInOutPage.fxml"));
+
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
 	
+
+
 	public void navToAccountant(ActionEvent event) throws IOException
 	{
 		root = FXMLLoader.load(getClass().getResource("/pages/AccountantPage.fxml"));
@@ -145,6 +159,7 @@ public class HomepageController implements Initializable
 		stage.setScene(scene);
 		stage.show();
 	}
+
 
 
 	

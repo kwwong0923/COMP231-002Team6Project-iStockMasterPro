@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CaseController">
+   <top>
+      <Label alignment="CENTER" prefHeight="135.0" prefWidth="98.0" text="Case List" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <GridPane prefHeight="624.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="244.0" minHeight="0.0" prefHeight="37.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="466.0" minHeight="10.0" prefHeight="434.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="269.0" minHeight="10.0" prefHeight="158.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="17.0" prefWidth="128.0" text="Case No :">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="searchBar" prefHeight="25.0" prefWidth="846.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets left="120.0" right="500.0" />
+               </GridPane.margin>
+            </TextField>
+            <Button fx:id="searchButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleSearchButtonAction" prefHeight="25.0" prefWidth="107.0" text="Search">
+               <GridPane.margin>
+                  <Insets left="530.0" />
+               </GridPane.margin>
+            </Button>
+            <TableView fx:id="table" prefHeight="391.0" prefWidth="964.0" GridPane.rowIndex="1">
+              <columns>
+                <TableColumn fx:id="caseIdColumn" prefWidth="94.0" text="Case id" />
+                <TableColumn fx:id="dateColumn" prefWidth="139.0" text="Date" />
+                  <TableColumn fx:id="caseTypeColumn" prefWidth="179.0" text="Case Type" />
+                  <TableColumn fx:id="caseDetailColumn" prefWidth="352.0" text="Case Detail" />
+                  <TableColumn fx:id="finishedColumn" prefWidth="199.0" text="Status" />
+              </columns>
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TableView>
+            <Button fx:id="addButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleAddButtonAction" prefHeight="61.0" prefWidth="178.0" text="Add New Case" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="70.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="homeButton" mnemonicParsing="false" onAction="#navToHomepage" prefHeight="61.0" prefWidth="178.0" text="Homepage" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="800.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="updateButton" mnemonicParsing="false" onAction="#handleUpdateButtonAction" prefHeight="61.0" prefWidth="178.0" text="Manage Case" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="320.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefHeight="61.0" prefWidth="173.0" text="Delete Case" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="570.0" />
+               </GridPane.margin>
+            </Button>
+         </children>
+      </GridPane>
+   </center>
+</BorderPane>

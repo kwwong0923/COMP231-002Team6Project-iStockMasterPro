@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CaseAddDialogController">
+   <children>
+      <DialogPane layoutX="40.0" layoutY="8.0" prefHeight="466.0" prefWidth="404.0" />
+      <Label layoutX="72.0" layoutY="45.0" prefHeight="42.0" prefWidth="136.0" text="Add New Case">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="68.0" layoutY="95.0" prefHeight="42.0" prefWidth="73.0" text="Case No:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="69.0" layoutY="150.0" prefHeight="25.0" prefWidth="57.0" text="Date:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="69.0" layoutY="200.0" prefHeight="28.0" prefWidth="66.0" text="Case Type:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="68.0" layoutY="259.0" prefHeight="28.0" prefWidth="73.0" text="Case Detail:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="66.0" layoutY="398.0" text="Status (Y/N):" />
+      <TextField fx:id="idTextField" layoutX="148.0" layoutY="104.0" />
+      <DatePicker fx:id="datePicker" layoutX="148.0" layoutY="149.0" prefHeight="28.0" prefWidth="149.0" />
+      <TextField fx:id="caseTypeTextField" layoutX="148.0" layoutY="202.0" />
+      <TextArea fx:id="caseDetailTextArea" layoutX="148.0" layoutY="259.0" prefHeight="112.0" prefWidth="310.0" />
+      <ChoiceBox fx:id="statusChoiceBox" layoutX="148.0" layoutY="394.0" prefHeight="25.0" prefWidth="121.0" />
+      <Button fx:id="addButton" layoutX="313.0" layoutY="434.0" mnemonicParsing="false" onAction="#handleAddButtonAction" prefHeight="25.0" prefWidth="57.0" text="Submit" />
+      <Button fx:id="cancelButton" layoutX="400.0" layoutY="434.0" mnemonicParsing="false" onAction="#handleCancelButtonAction" prefHeight="25.0" prefWidth="57.0" text="Cancel" />
+   </children>
+</AnchorPane>

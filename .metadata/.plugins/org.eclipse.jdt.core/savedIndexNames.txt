@@ -1,0 +1,23 @@
+INDEX VERSION 1.131+C:\Users\patri\OneDrive\Desktop\Inventory Project 3\COMP231-002Team6Project-iStockMasterPro\.metadata\.plugins\org.eclipse.jdt.core
+2866450425.index
+1523920940.index
+2246402619.index
+3416304033.index
+2225330759.index
+1871496.index
+3894040964.index
+2128526239.index
+1723082365.index
+2119283491.index
+1888680770.index
+3328379962.index
+3530094834.index
+1856970453.index
+3408896285.index
+2836563429.index
+753625430.index
+3184182335.index
+2884376832.index
+294013043.index
+1865797976.index
+729951370.index
