@@ -66,15 +66,7 @@ public class OrderPageController implements Initializable{
         ObservableList<Order> orders = fetchOrders("SELECT * FROM orders");
         displayOrders(orders);
     }
-/*
-    public void filterData() {
-        if (tf_orderID.getText().isEmpty()) {
-            populateData();
-        }else {
-            ObservableList<Order> orders = fetchOrders("SELECT * FROM orders WHERE orderId= " + tf_orderID.getText());
-            displayOrders(orders);
-        }
-    }*/
+
 
     private ObservableList<Order> fetchOrders(String sql) {
         DBConnection.connectToDB();

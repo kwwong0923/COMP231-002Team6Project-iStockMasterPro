@@ -25,6 +25,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sqlData.Announcement;
 
+import static controllers.OrderItemsPageController.Nav;
+
 public class HomepageController implements Initializable
 {
 	private Stage stage;
@@ -161,6 +163,7 @@ public class HomepageController implements Initializable
 	}
 
 
-
-	
+	public void navReport(ActionEvent actionEvent) throws IOException {
+		Nav(actionEvent,"/pages/FinancialReportPage.fxml");
+	}
 }

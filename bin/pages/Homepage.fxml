@@ -49,7 +49,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button fx:id="marketingManagerButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="80.0" prefWidth="350.0" text="Marketing Manager" textAlignment="CENTER" GridPane.rowIndex="1">
+            <Button fx:id="marketingManagerButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#navReport" prefHeight="80.0" prefWidth="350.0" text="Marketing Manager" textAlignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
