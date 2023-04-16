@@ -153,7 +153,7 @@ public class OrderItemsPageController implements Initializable {
 
         DBConnection.connectToDB();
 
-        String getProductSql = "SELECT product_name, price FROM INVENTORY WHERE productID = ?";
+        String getProductSql = "SELECT product_name, price, stock FROM INVENTORY WHERE productID = ?";
         try (PreparedStatement getProductStatement = connection.prepareStatement(getProductSql)) {
             getProductStatement.setInt(1, productID);
             ResultSet productResult = getProductStatement.executeQuery();
@@ -185,6 +185,20 @@ public class OrderItemsPageController implements Initializable {
                 tc_Price.setCellValueFactory(new PropertyValueFactory("price"));
                 tc_SubTotal.setCellValueFactory(new PropertyValueFactory("subtotal"));
                 table.getItems().addAll(orderItems);
+
+                int currentStock = productResult.getInt("stock");
+                int updatedStock = currentStock - quantity;
+
+
+                String updateStockSql = "UPDATE INVENTORY SET stock = ? WHERE productID = ?";
+                try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockSql)) {
+                    updateStockStatement.setInt(1, updatedStock);
+                    updateStockStatement.setInt(2, productID);
+                    updateStockStatement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
