@@ -69,6 +69,7 @@
                      <children>
                         <Button fx:id="btnAddOrder" mnemonicParsing="false" onAction="#navOrderItems" prefHeight="40.0" prefWidth="142.0" text="Add Order" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                         <Button fx:id="btnHomePage" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#navHomePage" prefHeight="40.0" prefWidth="142.0" text="Home Page" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Button fx:id="btnPrintReceipt" alignment="CENTER" mnemonicParsing="false" onAction="#btnPrintReceiptClick" prefHeight="40.0" prefWidth="142.0" text="Print Receipt " GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                      </children>
                   </GridPane>
                </children>
