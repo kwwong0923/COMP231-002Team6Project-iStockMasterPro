@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import application.DBConnection;
@@ -51,73 +52,94 @@ public class OrderPageController implements Initializable{
     public Button btnSearch;
     @FXML
     public Button btnPrintReceipt;
+    @FXML
+    public TextField tf_staffID;
+    @FXML
+    public DatePicker dp_orderDate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         populateData();
     }
 
-    public void populateData(){
+    public void populateData() {
+        ObservableList<Order> orders = fetchOrders("SELECT * FROM orders");
+        displayOrders(orders);
+    }
+/*
+    public void filterData() {
+        if (tf_orderID.getText().isEmpty()) {
+            populateData();
+        }else {
+            ObservableList<Order> orders = fetchOrders("SELECT * FROM orders WHERE orderId= " + tf_orderID.getText());
+            displayOrders(orders);
+        }
+    }*/
+
+    private ObservableList<Order> fetchOrders(String sql) {
         DBConnection.connectToDB();
         ObservableList<Order> orders = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM orders";
         try (PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
              ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
                 int orderId = rs.getInt("orderID");
                 double total = rs.getDouble("total");
                 int staffId = rs.getInt("staffID");
-                Date date =rs.getDate("order_date");
+                Date date = rs.getDate("order_date");
                 Order order = new Order(orderId,total,staffId,date);
                 orders.add(order);
-
             }
-            tc_orderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
-            tc_total.setCellValueFactory(new PropertyValueFactory<>("total"));
-            tc_staffId.setCellValueFactory(new PropertyValueFactory<>("staffId"));
-            tc_date.setCellValueFactory(new PropertyValueFactory<>("date"));
-            //table.getItems().clear();
-            table.getItems().addAll(orders);
-
-            tc_orderId.setSortType(TableColumn.SortType.ASCENDING);
-            table.getSortOrder().add(tc_orderId);
-            table.sort();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             DBConnection.disconnectToDB();
         }
+        return orders;
     }
-    public void filterData(){
-        DBConnection.connectToDB();
-        ObservableList<Order> orders = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM orders WHERE orderId= "+tf_orderID.getText();
-        try (PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery())
-        {
-            while (rs.next()) {
-                int orderId = rs.getInt("orderID");
-                double total = rs.getDouble("total");
-                int staffId = rs.getInt("staffID");
-                Date date =rs.getDate("order_date");
-                Order order = new Order(orderId,total,staffId,date);
-                orders.add(order);
+    String pattern = "dd-MMM-yy";
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
-            }
-            tc_orderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
-            tc_total.setCellValueFactory(new PropertyValueFactory<>("total"));
-            tc_staffId.setCellValueFactory(new PropertyValueFactory<>("staffId"));
-            tc_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+    public void filterData() {
 
-            table.getItems().clear();
-            table.getItems().addAll(orders);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            DBConnection.disconnectToDB();
+
+        String orderID = tf_orderID.getText().isEmpty() ? null : tf_orderID.getText();
+        LocalDate orderDate = dp_orderDate.getValue();
+        String staffID = tf_staffID.getText().isEmpty() ? null : tf_staffID.getText();
+
+        ObservableList<Order> orders = fetchOrders(buildQuery(orderID, orderDate, staffID));
+        displayOrders(orders);
+    }
+
+    private String buildQuery(String orderID, LocalDate orderDate, String staffID) {
+        StringBuilder sb = new StringBuilder("SELECT * FROM orders WHERE 1=1");
+        if (orderID != null) {
+            sb.append(" AND orderId=").append(orderID);
         }
-
+        if (orderDate != null) {
+            String formattedDate = dateFormatter.format(orderDate);
+            sb.append(" AND order_date='").append(formattedDate.trim()).append("'");
+        }
+        if (staffID != null) {
+            sb.append(" AND staffID=").append(staffID);
+        }
+        return sb.toString();
     }
+
+
+    private void displayOrders(ObservableList<Order> orders) {
+        tc_orderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        tc_total.setCellValueFactory(new PropertyValueFactory<>("total"));
+        tc_staffId.setCellValueFactory(new PropertyValueFactory<>("staffId"));
+        tc_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        table.getItems().clear();
+        table.getItems().addAll(orders);
+
+        tc_orderId.setSortType(TableColumn.SortType.ASCENDING);
+        table.getSortOrder().add(tc_orderId);
+        table.sort();
+    }
+
     public void showOrderInfo(int orderID) {
         DBConnection.connectToDB();
         // retrieve order information from the ORDERS table
@@ -150,7 +172,7 @@ public class OrderPageController implements Initializable{
 
                     // display order information in a popup dialog
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Order Information");
+                    alert.setTitle("Order Receipt");
                     alert.setHeaderText("Order ID: " + orderID);
                     alert.setContentText("Order Date: " + orderDate + "\n" +
                             "Staff ID: " + staffID + "\n" +
