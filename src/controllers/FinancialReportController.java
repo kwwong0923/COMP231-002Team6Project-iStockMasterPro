@@ -155,7 +155,7 @@ public class FinancialReportController implements Initializable
 		return;		
 	}
 	
-	private double getWholeProfit(int month, int year) throws SQLException
+	public double getWholeProfit(int month, int year) throws SQLException
 	{
 		double profit = 0;
 		String query = "SELECT SUM(total) FROM orders WHERE " + monthAndYearQuery;
