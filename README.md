@@ -26,11 +26,9 @@ After launching Eclipse IDE:
 6. Select "Libraries" and click "Add External JARs…"
 7. Add the following files:
 
-    i. All JAR files in …\COMP231-002Team6Project-iStockMasterPro-master\javafx-sdk-19.0.2.1\lib      
+    i. All JAR files in …\COMP231-002Team6Project-iStockMasterPro-master\iStockTesting2_lib
     
-    ii. ojdbc11.jar
-    
-    iii. (You may also need to remove any old error paths or JARs)
+    ii. (You may also need to remove any old error paths or JARs)
 8. Click "Apply and Close"
 9. In the Package Explorer, navigate to src > application > Main.java
 10. Click the "Run" button to launch the application
