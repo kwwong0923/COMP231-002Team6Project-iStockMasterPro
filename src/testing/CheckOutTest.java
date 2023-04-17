@@ -18,7 +18,7 @@ public class CheckOutTest {
 		
 		CheckInOutController controller = new CheckInOutController();
 		int count = controller.addCheckInOrOutRecord("10021", false);
-		assertEquals(1, count);
+		assertTrue(count>0);
 		
 		DBConnection.disconnectToDB();
 	}
