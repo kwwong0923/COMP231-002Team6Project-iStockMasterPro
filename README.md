@@ -38,3 +38,7 @@ After launching Eclipse IDE:
 8. Click "Apply and Close"
 9. In the Package Explorer, navigate to src > application > Main.java
 10. Click the "Run" button to launch the application
+
+## Contact Me
+Feel free to contact me if you are interested in chatting with me.  
+[Telegram](https://t.me/kwwonggggg)
