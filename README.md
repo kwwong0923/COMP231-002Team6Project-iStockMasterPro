@@ -3,7 +3,9 @@
 This is an application for local store to monitor their stock and create an order for cumtomer.
 ![iStockPro](https://github.com/kwwong0923/COMP231-002Team6Project-iStockMasterPro/assets/113259144/8ac5fbe1-860a-4cd6-bbb8-30bb3d970bac)
 
-## Built
+## Built With
+Java | Java FX | Oracle | SQL 
+
 ## Getting Started
 Our team recommends using the Eclipse IDE to run the application. Download Eclipse from this link: https://www.eclipse.org/downloads/
 
